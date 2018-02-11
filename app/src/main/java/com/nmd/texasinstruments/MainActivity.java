@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private OutputStream outputStream;
     private InputStream inputStream;
     Button startButton, sendButton,clearButton,stopButton;
-    TextView textView;
+//    TextView textView;
     EditText editText;
     boolean deviceConnected=false;
     Thread thread;
@@ -70,10 +70,20 @@ public class MainActivity extends AppCompatActivity {
         clearButton = (Button) findViewById(R.id.buttonClear);
         stopButton = (Button) findViewById(R.id.buttonStop);
         editText = (EditText) findViewById(R.id.editText);
-        textView = (TextView) findViewById(R.id.textView);
+//        textView = (TextView) findViewById(R.id.textView);
         al_data = new ArrayList<String>();
         f_check=1;
         setUiEnabled(false);
+        plot = (XYPlot) findViewById(R.id.plot);
+
+        plot.setRangeBoundaries(200, 500, BoundaryMode.AUTO);    //Y Axis
+        plot.setDomainBoundaries(0, 1200, BoundaryMode.FIXED); //X axis
+        plot.setDomainLabel("TestDomain");
+        plot.setRangeLabel("TestRange");
+        plot.setTitle("ECG");
+
+        // reduce the number of range labels
+        plot.setLinesPerRangeLabel(3);
 
         //Plotting elements
         // initialize our XYPlot reference:
@@ -230,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
         startButton.setEnabled(!bool);
         sendButton.setEnabled(bool);
         stopButton.setEnabled(bool);
-        textView.setEnabled(bool);
+//        textView.setEnabled(bool);
 
     }
 
@@ -311,7 +321,7 @@ public class MainActivity extends AppCompatActivity {
                 setUiEnabled(true);
                 deviceConnected=true;
                 beginListenForData();
-                textView.append("\nConnection Opened!\n");
+//                textView.append("\nConnection Opened!\n");
                 plot = (XYPlot) findViewById(R.id.plot);
             }
 
@@ -319,19 +329,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startplotting() {
-        plot = (XYPlot) findViewById(R.id.plot);
 
-        ECGModel ecgSeries = new ECGModel(1200, 100);
-
-        // add a new series' to the xyplot:
         MyFadeFormatter formatter =new MyFadeFormatter(1200);
         formatter.setLegendIconEnabled(false);
-        plot.addSeries(ecgSeries, formatter);
-        plot.setRangeBoundaries(0, 500, BoundaryMode.FIXED);    //Y Axis
-        plot.setDomainBoundaries(0, 1200, BoundaryMode.FIXED); //X axis
 
-        // reduce the number of range labels
-        plot.setLinesPerRangeLabel(3);
+        ECGModel ecgSeries = new ECGModel(1200, 100);
+        plot.addSeries(ecgSeries, formatter);
+        // add a new series' to the xyplot:
+
 
         // start generating ecg data in the background:
         ecgSeries.start(new WeakReference<>(plot.getRenderer(AdvancedLineAndPointRenderer.class)));
@@ -412,7 +417,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        textView.append("\nSent Data:"+string+"\n");
+//        textView.append("\nSent Data:"+string+"\n");
 
     }
 
@@ -423,11 +428,11 @@ public class MainActivity extends AppCompatActivity {
         socket.close();
         setUiEnabled(false);
         deviceConnected=false;
-        textView.append("\nConnection Closed!\n");
+//        textView.append("\nConnection Closed!\n");
     }
 
     public void onClickClear(View view) {
-        textView.setText("");
+//        textView.setText("");
     }
 
 

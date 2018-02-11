@@ -40,7 +40,7 @@ import com.jjoe64.graphview.LineGraphView;
 import java.io.IOException;
 import java.util.Set;
 
-import static com.nmd.texasinstruments.R.id.textView;
+//import static com.nmd.texasinstruments.R.id.textView;
 
 
 public class ECG extends AppCompatActivity implements View.OnClickListener{
